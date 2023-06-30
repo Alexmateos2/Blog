@@ -1,0 +1,72 @@
+import { useState } from "react";
+import { FaRegTrashAlt } from 'react-icons/fa';
+import { Link } from "react-router-dom";
+import { FaRegClock } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { BotonesDelete } from "./botonesDelete";
+const Post = ({ post,fetchPosts }) => {
+  const [borrar,setBorrar] =useState(false);
+   const handleBorrarChange = ()=> { 
+    setBorrar(true);
+   }
+   const handleDelete = () => {
+    fetch(`http://localhost:3000/delete/${post.id}?imagen=${post.imagen}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al eliminar el post");
+        }
+        toast.success("Post eliminado con éxito!");
+        fetchPosts()
+      })
+      .catch((error) => {
+        console.error("Error al eliminar el post:", error);
+      });
+
+    setBorrar(false);
+  };
+  return (
+    <article className="bg-white rounded-2xl p-4">
+      <div className="h-full flex flex-col">
+    <div>
+      <div className="h-32 flex justify-center items-center">
+        <Link to={`/post/${post.id}`}>
+          <h2 className="font-bold text-center text-4xl transition duration-300 ease-in-out transform hover:scale-110">{post.titulo}</h2>
+        </Link>
+      </div>
+
+      <div className="flex gap-2 items-center justify-center p-4">
+        <p className="text-opacity-50 text-sm text-gray-500 font-semibold">{new Date(post.fecha).toLocaleString()}</p>
+        <FaRegClock className="text-gray-500" />
+      </div>
+
+      <div className="pt-4 w-full max-h-300">
+  <Link to={`/post/${post.id}`}>
+    <img
+      src={`${process.env.PUBLIC_URL}/imagenes/${post.imagen}`}
+      alt="imagen"
+      className="mx-auto rounded-lg h-auto w-full object-cover transition duration-300 ease-in-out transform hover:scale-110"
+      loading="lazy"
+      style={{ height: '400px' }}
+    />
+  </Link>
+</div>
+
+      <p className="text-justify mt-4 p-5">
+        {post.contenido}
+      </p>
+    </div>
+
+    <div className="mt-auto text-center">
+      <button className="bg-transparent rounded-lg py-2 px-4 mt-10 transition duration-300 ease-in-out transform hover:scale-125 hover:text-red-500" onClick={handleBorrarChange}>
+        <FaRegTrashAlt className="text-3xl" />
+      </button>
+    </div>
+  </div>
+    <BotonesDelete borrar={borrar} setBorrar={setBorrar} handleDelete={handleDelete}/>
+  </article>
+  );
+};
+
+export default Post;
