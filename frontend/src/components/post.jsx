@@ -26,35 +26,39 @@ const Post = ({ post,fetchPosts }) => {
 
     setBorrar(false);
   };
+  const contenido = post.contenido.substring(0, 50);
   return (
     <article className="bg-white rounded-2xl p-4">
       <div className="h-full flex flex-col">
     <div>
       <div className="h-32 flex justify-center items-center">
         <Link to={`/post/${post.id}`}>
-          <h2 className="font-bold text-center text-4xl transition duration-300 ease-in-out transform hover:scale-110">{post.titulo}</h2>
+          <h2 className="font-bold text-center text-2xl md:text-3xl lg:text-4xl transition duration-300 ease-in-out transform hover:scale-110">{post.titulo}</h2>
         </Link>
       </div>
 
-      <div className="flex gap-2 items-center justify-center p-4">
+      <div className="flex gap-2 items-center justify-center mt-2 sm:mt-0 p-4 ">
         <p className="text-opacity-50 text-sm text-gray-500 font-semibold">{new Date(post.fecha).toLocaleString()}</p>
         <FaRegClock className="text-gray-500" />
       </div>
 
       <div className="pt-4 w-full max-h-300">
   <Link to={`/post/${post.id}`}>
-    <img
-      src={`${process.env.PUBLIC_URL}/imagenes/${post.imagen}`}
-      alt="imagen"
-      className="mx-auto rounded-lg h-auto w-full object-cover transition duration-300 ease-in-out transform hover:scale-110"
-      loading="lazy"
-      style={{ height: '400px' }}
-    />
+    <div
+      className="mx-auto rounded-xl overflow-hidden"
+      style={{ paddingBottom: "100%", position: "relative" }}
+    >
+      <img
+        src={`${process.env.PUBLIC_URL}/imagenes/${post.imagen}`}
+        alt="imagen"
+        className="absolute h-full w-full object-cover transition duration-300 ease-in-out transform hover:scale-110"
+        loading="lazy"
+      />
+    </div>
   </Link>
 </div>
-
       <p className="text-justify mt-4 p-5">
-        {post.contenido}
+        {contenido}...
       </p>
     </div>
 

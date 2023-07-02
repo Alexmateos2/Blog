@@ -8,22 +8,25 @@ export function NuevoPosts() {
   const [titulo, setTitulo] = useState('');
   const [contenido, setContenido] = useState('');
   const [imagen, setImagen] = useState(null);
+  const handleImagenChange = (e) => {
+    setImagen(e.target.files[0]);
+  };
 
   const handleGuardarFetch = async (e) => {
     e.preventDefault();
-
-    if (titulo !== '' && contenido !== '') {
+  
+    if (titulo !== '' && contenido !== '' && contenido.length >= 200 && titulo.length<=60 && imagen !== null) {
       try {
         const formData = new FormData();
         formData.append('titulo', titulo);
         formData.append('contenido', contenido);
         formData.append('imagen', imagen);
-
+  
         const response = await fetch('http://localhost:3000/nuevoPost', {
           method: 'POST',
           body: formData,
         });
-
+  
         if (response.ok) {
           toast.success("Post creado con éxito");
           navigate("/");
@@ -31,15 +34,23 @@ export function NuevoPosts() {
       } catch (error) {
         toast.error('Error en la solicitud');
       }
-    } else {
-      toast.error('Titulo o contenido vacío');
+    } else if (titulo === '') {
+      toast.error('Titulo vacío');
+    }
+  
+     else if (contenido === '') {
+      toast.error('Contenido vacío');
+    }
+
+      else if (contenido.length< 200){
+        toast.error('El texto tiene que tener mas de 200 caracteres')
+      }
+     else {
+      toast.error("Imagen no insertada");
     }
   };
 
-  const handleImagenChange = (e) => {
-    setImagen(e.target.files[0]);
-  };
-
+  
   return (
     <>
       <Header />
@@ -59,6 +70,8 @@ export function NuevoPosts() {
                 id="titulo"
                 type="text"
                 placeholder="Inserta un titulo del post"
+                required
+                maxLength={60}
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
               />
@@ -75,8 +88,10 @@ export function NuevoPosts() {
                 rows="10"
                 placeholder="Escribe tu post!"
                 className="shadow w-full rounded border text-gray-700 focus:outline-none py-2 px-3"
+                required
                 value={contenido}
                 onChange={(e) => setContenido(e.target.value)}
+                minLength={200}
               ></textarea>
             </div>
             <div className="mb-6">
@@ -86,6 +101,7 @@ export function NuevoPosts() {
               <input
                 accept="image/*"
                 type="file"
+                required
                 className="w-full text-md sm:text-lg"
                 onChange={handleImagenChange}
               />

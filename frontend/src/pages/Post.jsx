@@ -65,8 +65,8 @@ export function EntradaBlog() {
   const handleGuardar = () => {
     const formData = new FormData();
     formData.append('titulo', datosUser.titulo);
+    
     formData.append('contenido', datosUser.contenido);
-  
     if (nuevaImagen) {
       formData.append('imagen', nuevaImagen);
       formData.append('imagenAnterior', datosUser.imagen);
@@ -74,7 +74,7 @@ export function EntradaBlog() {
       formData.append('imagen', datosUser.imagen || '');
       formData.append('imagenAnterior', datosUser.imagen || ''); 
     }
-  
+    if(datosUser.contenido.length>200){
     fetch(`http://localhost:3000/postEdited/${id}`, {
       method: 'PUT',
       body: formData,
@@ -92,7 +92,11 @@ export function EntradaBlog() {
         console.error('Error al guardar los cambios del post:', error);
         toast.error('Error al guardar los cambios del post');
       });
-  };
+  }
+  else{
+    toast.error('El contenido tiene que un mínimo de 200 caracteres')
+  }
+}
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -117,13 +121,15 @@ export function EntradaBlog() {
   return (
     <>
       <Header />
-      <div className="text-5xl sm:text-6xl mt-10 mx-auto text-center font-serif">
+      <div className="text-4xl sm:text-6xl mt-10 mx-auto text-center font-serif p-4">
+       
         <h2>
           {editarButton ? (
             <input
               type="text"
               value={datosUser.titulo || ''}
               onChange={handleInputChange}
+              maxLength={60}
               className="bg-transparent border-b border-gray-400 focus:outline-none"
               name="titulo"
             />
@@ -146,12 +152,8 @@ export function EntradaBlog() {
       {editarButton ? (
   <div
     {...getRootProps()}
-    className="mx-auto flex justify-center items-center mt-4"
+    className="mx-auto flex justify-center items-center mt-4 border  cursor-pointer rounded-sm p-16 w-2/3 border-gray-400"
     style={{
-      border: '1px dashed gray',
-      borderRadius: '4px',
-      padding: '16px',
-      cursor: 'pointer',
       backgroundColor: isDragActive ? '#f8f8f8' : 'transparent',
     }}
   >
@@ -160,40 +162,46 @@ export function EntradaBlog() {
       <img
         src={URL.createObjectURL(nuevaImagen)}
         alt="Nueva imagen"
-        className="mx-auto rounded-lg lg:max-w-2xl max-w-sm"
+        className="mx-auto rounded-lg lg:max-w-2xl max-w-full p-6"
       />
     ) : datosUser.imagen ? (
+      <div className='flex flex-col'>
       <img
         src={`${process.env.PUBLIC_URL}/imagenes/${datosUser.imagen}`}
         alt="Imagen original"
-        className="mx-auto rounded-lg lg:max-w-2xl max-w-sm"
+        className="mx-auto rounded-lg  lg:max-w-2xl max-w-2/3 p4"
       />
+      <div className='pt-10 text-lg text-center font-semibold'><p>Arrastra y suelta una imagen aquí o haz clic para seleccionarla</p></div>
+      </div>
     ) : (
       <p>Arrastra y suelta una imagen aquí o haz clic para seleccionarla</p>
     )}
   </div>
 ) : (
+  <div className="w-full mx-auto">
   <img
     src={`${process.env.PUBLIC_URL}/imagenes/${datosUser.imagen}`}
     alt="imagen"
-    className="mx-auto rounded-lg lg:max-w-2xl max-w-sm"
+    className="mx-auto rounded-lg lg:max-w-2xl max-w-sm sm:max-w-md px-4 max-h-[700px]"
   />
+</div>
 )}
       </div>
 
-      <div className="mx-auto lg:pl-32 lg:pr-32 pl-12 pr-12 pt-10  whitespace-pre-wrap ">
+      <div className="mx-auto lg:pl-32 lg:pr-32 pl-2 pr-2 pt-10  whitespace-pre-wrap ">
         {editarButton ? (
           <textarea
             className="border border-gray-400 rounded px-4 py-2 w-full"
             value={datosUser.contenido || ''}
             name="contenido"
+            minLength={200}
             onChange={handleInputChange}
             placeholder="Ingresa el contenido..."
             cols="30"
             rows="10"
           />
         ) : (
-          <div className="mx-auto pl-8 pr-8 text-sm sm:text-lg pt-10 pb-10 whitespace-pre-wrap shadow-md bg-slate-50 border border-slate-300 w-full sm:w-3/4">
+          <div className="mx-auto pl-8 pr-8 text-md sm:text-lg pt-10 pb-10 whitespace-pre-wrap shadow-md bg-slate-50 border border-slate-300 w-full sm:w-3/4">
             <p>{datosUser.contenido || ''}</p>
           </div>
         )}
