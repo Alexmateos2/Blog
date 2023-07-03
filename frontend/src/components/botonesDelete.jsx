@@ -4,12 +4,12 @@ export function BotonesDelete ({ borrar, setBorrar, handleDelete}) {
           {borrar ? (
         <>
           <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none p-4"
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none  dark:bg-cyan-900' >
                 <div className='flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t dark:bg-cyan-900'>
-                  <h3 className="text-3xl font-semibold mt-4">
+                  <h3 className="text-3xl font-semibold mt-4  dark:text-white/80">
                   ¿Seguro que quieres borrar este post?
                   </h3>
                 </div>
