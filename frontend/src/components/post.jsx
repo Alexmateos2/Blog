@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FaRegClock } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { BotonesDelete } from "./botonesDelete";
-const Post = ({ post,fetchPosts,isDarkMode }) => {
+const Post = ({ post,fetchPosts }) => {
   const [borrar,setBorrar] =useState(false);
    const handleBorrarChange = ()=> { 
     setBorrar(true);
@@ -29,7 +29,7 @@ const Post = ({ post,fetchPosts,isDarkMode }) => {
   const contenido = post.contenido.substring(0, 50);
   return (
   
-    <article className={`bg-white rounded-2xl p-4 ${isDarkMode ? 'dark:bg-cyan-900 dark:text-white/80' : ''}`}>
+    <article className='bg-white rounded-2xl p-4 dark:bg-cyan-900 dark:text-white/80'>
       <div className="h-full flex flex-col">
     <div>
       <div className="h-32 flex justify-center items-center">
@@ -39,8 +39,8 @@ const Post = ({ post,fetchPosts,isDarkMode }) => {
       </div>
 
       <div className="flex gap-2 items-center justify-center mt-2 sm:mt-0 p-4 ">
-        <p className={`text-opacity-50 text-sm text-gray-500 font-semibold ${isDarkMode ? `dark:text-white/60`: ''}`}>{new Date(post.fecha).toLocaleString()}</p>
-        <FaRegClock className={`text-gray-500 ${isDarkMode ? `dark:text-white/60`: ''}`} />
+        <p className='text-opacity-50 text-sm text-gray-500 font-semibold dark:text-white/60'>{new Date(post.fecha).toLocaleString()}</p>
+        <FaRegClock className='text-gray-500 dark:text-white/60'/>
       </div>
 
       <div className="pt-4 w-full max-h-300">
@@ -66,7 +66,7 @@ const Post = ({ post,fetchPosts,isDarkMode }) => {
       </button>
     </div>
   </div>
-    <BotonesDelete borrar={borrar} setBorrar={setBorrar} handleDelete={handleDelete} isDarkMode={isDarkMode}/>
+    <BotonesDelete borrar={borrar} setBorrar={setBorrar} handleDelete={handleDelete}/>
   </article>
   );
 };

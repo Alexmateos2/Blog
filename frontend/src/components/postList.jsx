@@ -1,9 +1,9 @@
 import Post from "./post";
-const PostList = ({ posts,fetchPosts,isDarkMode}) => {
+const PostList = ({ posts,fetchPosts}) => {
     return (
       <>
         {posts.map((post) => (
-          <Post key={post.id} post={post} fetchPosts={fetchPosts} isDarkMode={isDarkMode} />
+          <Post key={post.id} post={post} fetchPosts={fetchPosts} />
         ))}
       </>
     );

@@ -5,7 +5,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { BotonesDelete } from '../components/botonesDelete';
 import { useDropzone } from 'react-dropzone';
-export function EntradaBlog(isDarkMode) {
+
+export function EntradaBlog() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [datosUser, setDatosUser] = useState({});
@@ -122,7 +123,7 @@ export function EntradaBlog(isDarkMode) {
       <Header />
       <div className=' md:w-2/3 w-full mx-auto'>
         <div className="text-3xl sm:text-6xl mt-10 mx-auto text-center font-serif p-4">
-          <h2 className={`${isDarkMode ? 'dark:text-white/80' : ''}`}>
+          <h2 className='dark:text-white/80'>
             {editarButton ? (
               <input
                 type="text"
@@ -138,13 +139,13 @@ export function EntradaBlog(isDarkMode) {
           </h2>
         </div>
 
-        <div className="flex gap-2 items-center justify-center mt-6 mb-3">
+        <div className="flex gap-2 items-center text-gray-900 justify-center mt-6 mb-3">
           {datosUser.fecha && (
-            <p className={`text-opacity-50 text-sm text-gray-500 font-semibold ${isDarkMode ? `dark:text-white/80`: ''}`}>
+            <p className='text-opacity-80 text-sm text-gray-500 font-semibold dark:text-white/80'>
               {new Date(datosUser.fecha).toLocaleString()}
             </p>
           )}
-          <FaRegClock className={`text-gray-500 ${isDarkMode ? `dark:text-white/80`: ''}`} />
+          <FaRegClock className='text-gray-500 dark:text-white/80' />
         </div>
 
         <div>
@@ -170,10 +171,10 @@ export function EntradaBlog(isDarkMode) {
                   alt="Imagen original"
                   className="mx-auto rounded-lg w-full max-w-full p-4"
                 />
-                <div className={`pt-10 text-sm sm:text-lg text-center font-semibold text-black ${isDarkMode ? 'dark:text-white/80': ''}`}><p>Arrastra y suelta una imagen aquí o haz clic para seleccionarla</p></div>
+                <div className='pt-10 text-sm sm:text-lg text-center font-semibold text-black dark:text-white/80'><p>Arrastra y suelta una imagen aquí o haz clic para seleccionarla</p></div>
               </div>
             ) : (
-              <p className={`${isDarkMode ? 'dark:text-white/80': ''}`}>Arrastra y suelta una imagen aquí o haz clic para seleccionarla</p>
+              <p className='dark:text-white/80'>Arrastra y suelta una imagen aquí o haz clic para seleccionarla</p>
             )}
           </div>
           ) : (
@@ -191,7 +192,7 @@ export function EntradaBlog(isDarkMode) {
         <div className="mx-auto lg:px-40 px-4 pt-10  whitespace-pre-wrap ">
           {editarButton ? (
             <textarea
-              className={`border border-gray-400 rounded px-4 py-2 w-full ${isDarkMode ? 'dark:bg-cyan-900 dark:text-white/80': ''}`}
+              className='border border-gray-400 rounded px-4 py-2 w-full dark:bg-cyan-900 dark:text-white/80'
               value={datosUser.contenido || ''}
               name="contenido"
               minLength={200}
@@ -201,7 +202,7 @@ export function EntradaBlog(isDarkMode) {
               rows="10"
             />
           ) : (
-            <div className={`mx-auto px-5 sm:px-12 text-md sm:text-lg pt-10 pb-10 whitespace-pre-wrap shadow-md bg-slate-50 border border-slate-300 w-3/4vw ${isDarkMode ? 'dark:bg-cyan-900 dark:text-white/80': ''}`}>
+            <div className='mx-auto px-5 sm:px-12 text-md sm:text-lg pt-10 pb-10 whitespace-pre-wrap shadow-md bg-slate-50 border border-slate-300 w-3/4vw dark:bg-cyan-900 dark:text-white/80'>
             <p>{datosUser.contenido || ''}</p>
           </div>
           )}

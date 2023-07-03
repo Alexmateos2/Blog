@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-export function NuevoPosts(isDarkMode) {
+export function NuevoPosts() {
   const navigate = useNavigate();
   const [titulo, setTitulo] = useState('');
   const [contenido, setContenido] = useState('');
@@ -55,21 +55,21 @@ export function NuevoPosts(isDarkMode) {
     <>
       <Header />
 
-      <div className={`text-5xl sm:text-6xl mt-10 mx-auto text-center font-serif ${isDarkMode ? 'dark:text-white/80':''}`}>
+      <div className='text-5xl sm:text-6xl mt-10 mx-auto text-center font-serif dark:text-white/80'>
         Nuevo post
       </div>
       <div className="flex justify-center items-center mt-12">
         <div className="w-full max-w-6xl">
-          <form className={`bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 ${isDarkMode ? 'dark:bg-cyan-900':''}`} encType="multipart/form-data">
+          <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 dark:bg-cyan-900' encType="multipart/form-data">
             <div className="mb-4">
-              <label className={`block text-gray-700 text-sm font-bold mb-2 ${isDarkMode ? 'dark:text-white':''}`} htmlFor="titulo">
+              <label className='block text-gray-700 text-sm font-bold mb-2 dark:text-white' htmlFor="titulo">
                 Titulo*
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="titulo"
                 type="text"
-                placeholder="Inserta un titulo del post"
+                placeholder="Inserta un titulo del post (máximo 60 caracteres)"
                 required
                 maxLength={60}
                 value={titulo}
@@ -77,7 +77,7 @@ export function NuevoPosts(isDarkMode) {
               />
             </div>
             <div className="mb-6">
-              <label className={`block text-gray-700 text-sm font-bold mb-2 ${isDarkMode ? 'dark:text-white':''}`}  htmlFor="texto">
+              <label className='block text-gray-700 text-sm font-bold mb-2 dark:text-white' htmlFor="texto">
                 Contenido del post*
               </label>
 
@@ -86,7 +86,7 @@ export function NuevoPosts(isDarkMode) {
                 id=""
                 cols="30"
                 rows="10"
-                placeholder="Escribe tu post!"
+                placeholder="Escribe tu post! (mínimo 200 caracteres)"
                 className="shadow w-full rounded border text-gray-700 focus:outline-none py-2 px-3"
                 required
                 value={contenido}
@@ -95,14 +95,14 @@ export function NuevoPosts(isDarkMode) {
               ></textarea>
             </div>
             <div className="mb-6">
-              <label className={`block text-gray-700 text-sm font-bold mb-2 ${isDarkMode ? 'dark:text-white':''}`}  htmlFor="imagen">
+              <label className='block text-gray-700 text-sm font-bold mb-2 dark:text-white' htmlFor="imagen">
                 Imagen de portada*
               </label>
               <input
                 accept="image/*"
                 type="file"
                 required
-                className={`w-full text-md sm:text-lg ${isDarkMode ? 'dark:text-white/70':''}`}
+                className='w-full text-md sm:text-lg dark:text-white/70'
                 onChange={handleImagenChange}
               />
             </div>
