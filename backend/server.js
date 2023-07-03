@@ -144,4 +144,4 @@ server.put('/postEdited/:id', upload.single('imagen'), (req, res) => {
     });
   });
 });
-server.listen(port, () => console.log('Servidor iniciado en el puerto 3000'));
+server.listen(port, () => console.log('Servidor iniciado en el puerto 3001'));
