@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-export function NuevoPosts() {
+export function NuevoPosts(isDarkMode) {
   const navigate = useNavigate();
   const [titulo, setTitulo] = useState('');
   const [contenido, setContenido] = useState('');
@@ -22,7 +22,7 @@ export function NuevoPosts() {
         formData.append('contenido', contenido);
         formData.append('imagen', imagen);
   
-        const response = await fetch('http://localhost:3000/nuevoPost', {
+        const response = await fetch('http://localhost:3001/nuevoPost', {
           method: 'POST',
           body: formData,
         });
@@ -55,14 +55,14 @@ export function NuevoPosts() {
     <>
       <Header />
 
-      <div className="text-5xl sm:text-6xl mt-10 mx-auto text-center font-serif">
+      <div className={`text-5xl sm:text-6xl mt-10 mx-auto text-center font-serif ${isDarkMode ? 'dark:text-white/80':''}`}>
         Nuevo post
       </div>
       <div className="flex justify-center items-center mt-12">
         <div className="w-full max-w-6xl">
-          <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" encType="multipart/form-data">
+          <form className={`bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 ${isDarkMode ? 'dark:bg-cyan-900':''}`} encType="multipart/form-data">
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="titulo">
+              <label className={`block text-gray-700 text-sm font-bold mb-2 ${isDarkMode ? 'dark:text-white':''}`} htmlFor="titulo">
                 Titulo*
               </label>
               <input
@@ -77,7 +77,7 @@ export function NuevoPosts() {
               />
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="texto">
+              <label className={`block text-gray-700 text-sm font-bold mb-2 ${isDarkMode ? 'dark:text-white':''}`}  htmlFor="texto">
                 Contenido del post*
               </label>
 
@@ -95,21 +95,18 @@ export function NuevoPosts() {
               ></textarea>
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="imagen">
+              <label className={`block text-gray-700 text-sm font-bold mb-2 ${isDarkMode ? 'dark:text-white':''}`}  htmlFor="imagen">
                 Imagen de portada*
               </label>
               <input
                 accept="image/*"
                 type="file"
                 required
-                className="w-full text-md sm:text-lg"
+                className={`w-full text-md sm:text-lg ${isDarkMode ? 'dark:text-white/70':''}`}
                 onChange={handleImagenChange}
               />
             </div>
             <div className="flex justify-center gap-2">
-              <button className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mt-10 transition duration-300 ease-in-out w-1/4">
-                Previsualizar
-              </button>
               <button
                 className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mt-10 transition duration-300 ease-in-out w-1/4"
                 onClick={handleGuardarFetch}

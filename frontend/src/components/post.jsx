@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { FaRegClock } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { BotonesDelete } from "./botonesDelete";
-const Post = ({ post,fetchPosts }) => {
+const Post = ({ post,fetchPosts,isDarkMode }) => {
   const [borrar,setBorrar] =useState(false);
    const handleBorrarChange = ()=> { 
     setBorrar(true);
    }
    const handleDelete = () => {
-    fetch(`http://localhost:3000/delete/${post.id}?imagen=${post.imagen}`, {
+    fetch(`http://localhost:3001/delete/${post.id}?imagen=${post.imagen}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -28,7 +28,8 @@ const Post = ({ post,fetchPosts }) => {
   };
   const contenido = post.contenido.substring(0, 50);
   return (
-    <article className="bg-white rounded-2xl p-4">
+  
+    <article className={`bg-white rounded-2xl p-4 ${isDarkMode ? 'dark:bg-cyan-900 dark:text-white/80' : ''}`}>
       <div className="h-full flex flex-col">
     <div>
       <div className="h-32 flex justify-center items-center">
@@ -38,16 +39,13 @@ const Post = ({ post,fetchPosts }) => {
       </div>
 
       <div className="flex gap-2 items-center justify-center mt-2 sm:mt-0 p-4 ">
-        <p className="text-opacity-50 text-sm text-gray-500 font-semibold">{new Date(post.fecha).toLocaleString()}</p>
-        <FaRegClock className="text-gray-500" />
+        <p className={`text-opacity-50 text-sm text-gray-500 font-semibold ${isDarkMode ? `dark:text-white/60`: ''}`}>{new Date(post.fecha).toLocaleString()}</p>
+        <FaRegClock className={`text-gray-500 ${isDarkMode ? `dark:text-white/60`: ''}`} />
       </div>
 
       <div className="pt-4 w-full max-h-300">
   <Link to={`/post/${post.id}`}>
-    <div
-      className="mx-auto rounded-xl overflow-hidden"
-      style={{ paddingBottom: "100%", position: "relative" }}
-    >
+  <div className="mx-auto rounded-xl overflow-hidden pb-[100%] relative">
       <img
         src={`${process.env.PUBLIC_URL}/imagenes/${post.imagen}`}
         alt="imagen"
@@ -68,7 +66,7 @@ const Post = ({ post,fetchPosts }) => {
       </button>
     </div>
   </div>
-    <BotonesDelete borrar={borrar} setBorrar={setBorrar} handleDelete={handleDelete}/>
+    <BotonesDelete borrar={borrar} setBorrar={setBorrar} handleDelete={handleDelete} isDarkMode={isDarkMode}/>
   </article>
   );
 };

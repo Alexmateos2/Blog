@@ -3,7 +3,7 @@ const server = express();
 const cors = require('cors');
 const path = require("path")
 const fs = require('fs');
-const port = 3000;
+const port = 3001;
 server.use(express.json());
 server.use(cors());
 const mysql = require('mysql2');
@@ -144,5 +144,4 @@ server.put('/postEdited/:id', upload.single('imagen'), (req, res) => {
     });
   });
 });
-
 server.listen(port, () => console.log('Servidor iniciado en el puerto 3000'));
