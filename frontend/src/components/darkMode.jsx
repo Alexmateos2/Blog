@@ -21,7 +21,7 @@ export function DarkMode() {
 
   return (
     <button
-      className={`border rounded-lg p-2 ${isDarkMode ? 'dark:border-white' : 'border-black'}`}
+      className='border rounded-lg p-2 dark:border-white border-black'
       onClick={DarkModeToggle}
     >
       {isDarkMode ? <RiMoonLine color="white" size={24} /> : <RiSunLine color="black" size={24} />}
