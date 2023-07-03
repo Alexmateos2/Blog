@@ -62,7 +62,7 @@
 
    Los principales retos fueron sobretodo problemas al editar datos de los post ya que aveces se borraban en la BBDD o no se renderizaban bien luego. Mediante formData y mucha prueba y error se optimizó todos los fetch para que trajeran los datos a mi gusto.
 
-   Tambien fue un reto usar Tailwind, ya que era mi primera vez, me costó adaptarme y tuve algun problema con los anchos de las imagenes pero, alfinal ha quedado todo ordenado y responsive.
+   Tambien fue un reto usar Tailwind, ya que era mi primera vez, me costó adaptarme y tuve algun problema con los anchos de las imagenes pero, al final ha quedado todo ordenado y responsive.
 
    <h1><strong>Mejoras futuras</strong></h1>
 
