@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { BotonesDelete } from '../components/botonesDelete';
 import { useDropzone } from 'react-dropzone';
+import { Footer } from '../components/footer';
 
 export function EntradaBlog() {
   const navigate = useNavigate();
@@ -235,6 +236,7 @@ export function EntradaBlog() {
         </div>
         <BotonesDelete borrar={borrar} setBorrar={setBorrar} handleDelete={handleDelete} />
       </div>
+      <Footer/>
     </>
   );
 }

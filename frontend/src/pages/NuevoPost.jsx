@@ -2,6 +2,7 @@ import { Header } from "../components/header";
 import { useState } from "react";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { Footer } from "../components/footer";
 
 export function NuevoPosts() {
   const navigate = useNavigate();
@@ -116,6 +117,9 @@ export function NuevoPosts() {
             </div>
           </form>
         </div>
+      </div>
+      <div className="mt-20">
+      <Footer/>
       </div>
     </>
   );
