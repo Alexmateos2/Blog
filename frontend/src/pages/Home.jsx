@@ -10,7 +10,7 @@ export function Home() {
   }, []);
   const fetchPosts = async () => {
     try {
-      const response = await fetch("http://localhost:3001/posts");
+      const response = await fetch("https://back-blog-7adl.onrender.com/posts");
       const data = await response.json();
       setPosts(data);
     } catch (error) {

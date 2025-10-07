@@ -20,7 +20,7 @@ export function EntradaBlog() {
   };
 
   const handleDelete = () => {
-    fetch(`http://localhost:3001/delete/${id}?imagen=${datosUser.imagen}`, {
+    fetch(`https://back-blog-7adl.onrender.com/delete/${id}?imagen=${datosUser.imagen}`, {
       method: 'DELETE',
     })
       .then((response) => {
@@ -38,7 +38,7 @@ export function EntradaBlog() {
   };
 
   const fetchDatos = useCallback(() => {
-    fetch(`http://localhost:3001/post/${id}`)
+    fetch(`https://back-blog-7adl.onrender.com/post/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setDatosUser(data[0]);
@@ -76,7 +76,7 @@ export function EntradaBlog() {
     }
 
     if (datosUser.contenido.length > 200) {
-      fetch(`http://localhost:3001/postEdited/${id}`, {
+      fetch(`https://back-blog-7adl.onrender.com/postEdited/${id}`, {
         method: 'PUT',
         body: formData,
       })

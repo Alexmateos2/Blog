@@ -23,7 +23,7 @@ export function NuevoPosts() {
         formData.append('contenido', contenido);
         formData.append('imagen', imagen);
   
-        const response = await fetch('http://localhost:3001/nuevoPost', {
+        const response = await fetch('https://back-blog-7adl.onrender.com/nuevoPost', {
           method: 'POST',
           body: formData,
         });

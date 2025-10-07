@@ -10,7 +10,7 @@ const Post = ({ post,fetchPosts }) => {
     setBorrar(true);
    }
    const handleDelete = () => {
-    fetch(`http://localhost:3001/delete/${post.id}?imagen=${post.imagen}`, {
+    fetch(`https://back-blog-7adl.onrender.com/delete/${post.id}?imagen=${post.imagen}`, {
       method: "DELETE",
     })
       .then((response) => {
