@@ -39,7 +39,7 @@ const Post = ({ post, fetchPosts }) => {
       <div className="h-24 flex justify-center items-center p-2">
         <Link to={`/post/${post.id}`}>
           <h2
-            className="font-bold text-center sm:mt-2 text-2xl md:text-xl p-4 transition duration-300 ease-in-out mb-4 transform hover:scale-110 
+            className="font-bold text-center sm:mt-2 text-2xl md:text-xl p-4 transition duration-200 ease-in-out mb-4 transform hover:scale-105 
              line-clamp-4 sm:line-clamp-4 md:line-clamp-2"
           >
             {post.titulo}
