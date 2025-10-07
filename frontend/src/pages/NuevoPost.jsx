@@ -108,15 +108,13 @@ export function NuevoPosts() {
               />
             </div>
             <div className="flex justify-center gap-2">
-              <div className="w-full md:w-1/2">
-              <button
-                className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mt-10 transition duration-300 ease-in-out w-1/4"
-                onClick={handleGuardarFetch}
-              >
-                Guardar
-              </button>
-              </div>
-            </div>
+  <div className="w-full md:w-1/2">
+    <button className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mt-10 transition duration-300 ease-in-out w-1/4"
+      onClick={handleGuardarFetch}>
+      Guardar
+    </button>
+  </div>
+</div>
           </form>
         </div>
       </div>
