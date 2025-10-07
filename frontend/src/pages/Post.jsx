@@ -10,7 +10,7 @@ import { Footer } from '../components/footer';
 export function EntradaBlog() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [datosUser, setDatosUser] = useState(null); // ← inicialización segura
+  const [datosUser, setDatosUser] = useState(null); // inicialización segura
   const [editarButton, setEditarButton] = useState(false);
   const [borrar, setBorrar] = useState(false);
   const [nuevaImagen, setNuevaImagen] = useState(null);
@@ -28,15 +28,29 @@ export function EntradaBlog() {
         navigate('/');
       })
       .catch((error) => console.error('Error al eliminar el post:', error));
-
     setBorrar(false);
   };
 
   const fetchDatos = useCallback(() => {
     fetch(`https://back-blog-7adl.onrender.com/post/${id}`)
-      .then((response) => response.json())
-      .then((data) => setDatosUser(data[0] || null)) // ← evita undefined
-      .catch((error) => console.error('Error al obtener los datos del post:', error));
+      .then((response) => {
+        if (!response.ok) throw new Error('Error al obtener el post');
+        return response.json();
+      })
+      .then((data) => {
+        // DATA puede ser array o objeto
+        if (Array.isArray(data)) {
+          setDatosUser(data[0] || null);
+        } else if (data) {
+          setDatosUser(data);
+        } else {
+          setDatosUser(null);
+        }
+      })
+      .catch((error) => {
+        console.error('Error al obtener los datos del post:', error);
+        setDatosUser(null); // evita quedarse en "Cargando..."
+      });
   }, [id]);
 
   useEffect(() => {
