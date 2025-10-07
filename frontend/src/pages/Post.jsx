@@ -191,7 +191,7 @@ export function EntradaBlog() {
           )}
         </div>
 
-        <div className="mx-auto lg:px-40 px-4 pt-10 whitespace-pre-wrap">
+        <div className="mx-auto lg:px-8 px-4 pt-10 whitespace-pre-wrap leading-1">
           {editarButton ? (
             <textarea
               className="border border-gray-400 rounded px-4 py-2 w-full dark:bg-cyan-900 dark:text-white/80"
@@ -204,7 +204,7 @@ export function EntradaBlog() {
               rows="10"
             />
           ) : (
-            <div className="mx-auto px-5 sm:px-12 text-md sm:text-lg pt-10 pb-10 whitespace-pre-wrap shadow-md bg-slate-50 border border-slate-300 w-3/4vw dark:bg-cyan-900 dark:text-white/80">
+            <div className="mx-auto  leading-2 px-5 sm:px-12 text-md sm:text-lg pt-10 pb-10 whitespace-pre-wrap shadow-md bg-slate-50 border border-slate-300 w-3/4vw dark:bg-cyan-900 dark:text-white/80">
               <p>{datosUser.contenido || ''}</p>
             </div>
           )}
