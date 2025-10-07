@@ -102,7 +102,6 @@ export function NuevoPosts() {
               <input
                 accept="image/*"
                 type="file"
-                required
                 className='w-full text-md sm:text-lg dark:text-white/70'
                 onChange={handleImagenChange}
               />
