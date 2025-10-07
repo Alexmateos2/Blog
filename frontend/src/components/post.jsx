@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FaRegClock } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -11,9 +11,12 @@ const Post = ({ post, fetchPosts }) => {
   const handleBorrarChange = () => setBorrar(true);
 
   const handleDelete = () => {
-    fetch(`https://back-blog-7adl.onrender.com/delete/${post.id}?imagen=${post.imagen}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `https://back-blog-7adl.onrender.com/delete/${post.id}?imagen=${post.imagen}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al eliminar el post");
@@ -33,16 +36,19 @@ const Post = ({ post, fetchPosts }) => {
   return (
     <article className="bg-white rounded-2xl p-4 dark:bg-cyan-900 dark:text-white/80 shadow-md flex flex-col h-full">
       {/* Título */}
-      <div className="h-24 flex justify-center items-center px-2">
+      <div className="h-24 flex justify-center items-center p-2">
         <Link to={`/post/${post.id}`}>
-          <h3 className="font-bold text-center text-xl md:text-2xl lg:text-3xl transition duration-300 ease-in-out p-4 transform hover:scale-110 line-clamp-2">
+          <h2
+            className="font-bold text-center sm:mt-2 text-2xl md:text-xl p-4 transition duration-300 ease-in-out mb-4 transform hover:scale-110 
+             line-clamp-4 sm:line-clamp-4 md:line-clamp-2"
+          >
             {post.titulo}
-          </h3>
+          </h2>
         </Link>
       </div>
 
       {/* Fecha */}
-      <div className="flex gap-2 items-center justify-center mt-2 sm:mt-0 p-2">
+      <div className="flex gap-2 items-center justify-center mt-2 sm:mt-0 p-4">
         <p className="text-opacity-50 text-sm text-gray-500 font-semibold dark:text-white/60">
           {new Date(post.fecha).toLocaleString()}
         </p>
@@ -80,7 +86,11 @@ const Post = ({ post, fetchPosts }) => {
         </button>
       </div>
 
-      <BotonesDelete borrar={borrar} setBorrar={setBorrar} handleDelete={handleDelete} />
+      <BotonesDelete
+        borrar={borrar}
+        setBorrar={setBorrar}
+        handleDelete={handleDelete}
+      />
     </article>
   );
 };
