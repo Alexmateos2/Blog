@@ -26,7 +26,7 @@ const Post = ({ post,fetchPosts }) => {
 
     setBorrar(false);
   };
-  const contenido = post.contenido.substring(0, 50);
+  const contenido = post.contenido.substring(0, 150);
   return (
   
     <article className='bg-white rounded-2xl p-4 dark:bg-cyan-900 dark:text-white/80'>
