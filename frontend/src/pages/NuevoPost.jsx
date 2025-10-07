@@ -16,7 +16,7 @@ export function NuevoPosts() {
   const handleGuardarFetch = async (e) => {
     e.preventDefault();
   
-    if (titulo !== '' && contenido !== '' && contenido.length >= 200 && titulo.length<=60 && imagen !== null) {
+    if (titulo !== '' && contenido !== '' && contenido.length >= 200 && titulo.length<=60) {
       try {
         const formData = new FormData();
         formData.append('titulo', titulo);
