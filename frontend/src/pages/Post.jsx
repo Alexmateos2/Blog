@@ -33,34 +33,25 @@ export function EntradaBlog() {
     setBorrar(false);
   };
 
- const fetchDatos = useCallback(async () => {
-  let showLoading = false;
+  const fetchDatos = useCallback(async () => {
+    let showLoading = false;
 
+    const loadingTimeout = setTimeout(() => {
+      showLoading = true;
+      setLoading(true);
+    }, 200);
 
-  const loadingTimeout = setTimeout(() => {
-    showLoading = true;
-    setLoading(true);
-  }, 200);
-
-  try {
-    const response = await new Promise((resolve, reject) => {
-      fetch(`https://back-blog-7adl.onrender.com/post/${id}`)
-        .then(res => res.json())
-        .then(data => {
-        resolve(data)
-        })
-        .catch(reject);
-    });
-
-    setDatosUser(Array.isArray(response) ? response[0] : response);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    clearTimeout(loadingTimeout);
-    if (showLoading) setLoading(false);
-  }
-}, [id]);
-
+    try {
+      const response = await fetch(`https://back-blog-7adl.onrender.com/post/${id}`);
+      const data = await response.json();
+      setDatosUser(Array.isArray(data) ? data[0] : data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      clearTimeout(loadingTimeout);
+      if (showLoading) setLoading(false);
+    }
+  }, [id]);
 
   useEffect(() => {
     fetchDatos();
@@ -77,7 +68,6 @@ export function EntradaBlog() {
     const formData = new FormData();
     formData.append('titulo', datosUser.titulo || '');
     formData.append('contenido', datosUser.contenido || '');
-
     if (nuevaImagen) {
       formData.append('imagen', nuevaImagen);
       formData.append('imagenAnterior', datosUser.imagen);
@@ -113,15 +103,15 @@ export function EntradaBlog() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop: handleDrop });
 
- if (loading) return <PostSkeleton />;
-
+  if (loading) return <PostSkeleton />;
   if (!datosUser) return null;
 
   return (
     <>
       <Header />
-      <div className="md:w-2/3 w-full mx-auto">
-        <div className="text-3xl sm:text-6xl mt-10 mx-auto text-center font-serif p-4">
+      <div className="w-full px-4 md:px-6">
+        {/* Título */}
+        <div className="text-3xl sm:text-6xl mt-10 text-center font-serif p-4">
           <h2 className="dark:text-white/80">
             {editarButton ? (
               <input
@@ -129,7 +119,7 @@ export function EntradaBlog() {
                 value={datosUser.titulo || ''}
                 onChange={handleInputChange}
                 maxLength={60}
-                className="bg-transparent border-b border-gray-400 focus:outline-none w-full"
+                className="bg-transparent border-b border-gray-400 focus:outline-none w-full md:w-11/12 lg:w-10/12 mx-auto block"
                 name="titulo"
               />
             ) : (
@@ -138,20 +128,22 @@ export function EntradaBlog() {
           </h2>
         </div>
 
-        <div className="flex gap-2 items-center text-gray-900 justify-center mt-6 mb-3">
+        {/* Fecha */}
+        <div className="flex gap-2 items-center justify-center mt-6 mb-3 text-gray-900">
           {datosUser.fecha && (
-            <p className="text-opacity-80 text-sm text-gray-500 font-semibold dark:text-white/80">
+            <p className="text-sm font-semibold text-gray-500 text-opacity-80 dark:text-white/80">
               {new Date(datosUser.fecha).toLocaleString()}
             </p>
           )}
           <FaRegClock className="text-gray-500 dark:text-white/80" />
         </div>
 
-        <div>
+        {/* Imagen */}
+        <div className="w-full mx-auto">
           {editarButton ? (
             <div
               {...getRootProps()}
-              className={`mx-auto flex justify-center items-center mt-4 border cursor-pointer rounded-sm p-16 w-2/3 border-gray-400 ${
+              className={`mx-auto flex justify-center items-center mt-4 border cursor-pointer rounded-sm p-16 w-full border-gray-400 ${
                 isDragActive ? 'bg-gray-100' : ''
               }`}
             >
@@ -160,47 +152,53 @@ export function EntradaBlog() {
                 <img
                   src={URL.createObjectURL(nuevaImagen)}
                   alt="Nueva imagen"
-                  className="mx-auto rounded-lg w-full max-w-full p-6"
+                  className="mx-auto rounded-lg w-full sm:max-w-sm md:max-w-md lg:max-w-lg p-6"
+                  style={{ maxHeight: '500px' }}
                 />
               ) : (
                 <img
                   src={`${process.env.PUBLIC_URL}/imagenes/${datosUser.imagen}`}
                   alt="Imagen original"
-                  className="mx-auto rounded-lg w-full max-w-full p-4"
+                  className="mx-auto rounded-lg w-full sm:max-w-sm md:max-w-md lg:max-w-lg p-4"
+                  style={{ maxHeight: '500px' }}
                 />
               )}
             </div>
           ) : (
-            <div className="w-full mx-auto">
-              <img
-                src={`${process.env.PUBLIC_URL}/imagenes/${datosUser.imagen}`}
-                alt="imagen"
-                className="mx-auto rounded-lg lg:max-w-2xl max-w-2/3 p-3 px-6"
-                style={{ maxHeight: '700px' }}
-              />
-            </div>
-          )}
-        </div>
-
-        <div className="mx-auto px-4 pt-10 whitespace-pre-wrap">
-          {editarButton ? (
-            <textarea
-              className="border border-gray-400 rounded px-4 py-2 w-full dark:bg-cyan-900 dark:text-white/80"
-              value={datosUser.contenido || ''}
-              name="contenido"
-              minLength={200}
-              onChange={handleInputChange}
-              placeholder="Ingresa el contenido..."
-              cols="30"
-              rows="10"
+            <img
+              src={`${process.env.PUBLIC_URL}/imagenes/${datosUser.imagen}`}
+              alt="imagen"
+              className="mx-auto rounded-lg w-full sm:max-w-sm md:max-w-md lg:max-w-lg p-3 px-6"
+              style={{ maxHeight: '500px' }}
             />
-          ) : (
-            <div className="mx-auto px-5 sm:px-12 text-md sm:text-lg pt-10 pb-10 whitespace-pre-wrap shadow-md bg-slate-50 border border-slate-300 w-3/4vw dark:bg-cyan-900 dark:text-white/80">
-              <p>{datosUser.contenido || ''}</p>
-            </div>
           )}
         </div>
 
+        {/* Contenido mejorado con caja */}
+<div className="mt-10">
+  {editarButton ? (
+    <textarea
+      className="w-full max-w-6xl mx-auto block border border-gray-400 rounded px-4 py-2 dark:bg-cyan-900 dark:text-white/80 text-lg leading-relaxed"
+      value={datosUser.contenido || ''}
+      name="contenido"
+      minLength={200}
+      onChange={handleInputChange}
+      placeholder="Ingresa el contenido..."
+      cols="30"
+      rows="10"
+    />
+  ) : (
+    <div className="mx-auto w-full max-w-6xl text-lg leading-relaxed px-6 py-6 shadow-md bg-slate-50 border border-slate-300 rounded-lg dark:bg-cyan-900 dark:text-white/80">
+      {datosUser.contenido.split("\n").map((linea, i) => (
+        <p key={i} className="mb-4">
+          {linea}
+        </p>
+      ))}
+    </div>
+  )}
+</div>
+
+        {/* Botones */}
         <div className="mb-6 flex gap-4 justify-center">
           <button
             className={`bg-gray-400 hover:shadow-lg text-white font-bold py-2 px-4 rounded mt-10 transition duration-300 ease-in-out w-32 ${

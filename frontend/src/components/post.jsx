@@ -35,7 +35,7 @@ const Post = ({ post, fetchPosts }) => {
 
   return (
     <article className="bg-white rounded-2xl p-4 dark:bg-cyan-900 dark:text-white/80 shadow-md flex flex-col h-full">
-      {/* Título */}
+     
       <div className="h-24 flex justify-center items-center p-2">
         <Link to={`/post/${post.id}`}>
           <h2
@@ -47,7 +47,7 @@ const Post = ({ post, fetchPosts }) => {
         </Link>
       </div>
 
-      {/* Fecha */}
+      
       <div className="flex gap-2 items-center justify-center mt-2 sm:mt-0 p-4">
         <p className="text-opacity-50 text-sm text-gray-500 font-semibold dark:text-white/60">
           {new Date(post.fecha).toLocaleString()}
@@ -55,7 +55,7 @@ const Post = ({ post, fetchPosts }) => {
         <FaRegClock className="text-gray-500 dark:text-white/60" />
       </div>
 
-      {/* Imagen */}
+
       <div className="pt-4 w-full">
         <Link to={`/post/${post.id}`}>
           <div className="mx-auto rounded-xl overflow-hidden aspect-[16/9]">
@@ -69,14 +69,13 @@ const Post = ({ post, fetchPosts }) => {
         </Link>
       </div>
 
-      {/* Contenido */}
       <div className="flex-1 overflow-hidden px-4 mt-4">
         <p className="text-justify text-base leading-relaxed line-clamp-4">
           {contenido}...
         </p>
       </div>
 
-      {/* Botón eliminar */}
+
       <div className="text-center mt-6">
         <button
           className="bg-transparent rounded-lg py-2 px-4 transition duration-300 ease-in-out transform hover:scale-125 hover:text-red-500"
