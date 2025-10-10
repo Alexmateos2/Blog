@@ -1,4 +1,5 @@
 import PostList from "../components/postList";
+import { HomeSkeleton } from "../components/homeSkeleton"
 import { Link } from "react-router-dom";
 import { Header } from "../components/header";
 import { Footer } from "../components/footer";
@@ -6,23 +7,27 @@ import { useEffect, useState } from "react";
 
 export function Home() {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [showSkeleton, setShowSkeleton] = useState(false);
+const fetchPosts = async () => {
+  setShowSkeleton(false);
 
-  const fetchPosts = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch("https://back-blog-7adl.onrender.com/posts");
-      const data = await response.json();
+  const skeletonTimeout = setTimeout(() => setShowSkeleton(true), 200);
+
+  try {
+    const response = await fetch("https://back-blog-7adl.onrender.com/posts");
+    const data = await response.json();
 
     
-        setPosts(data);
-        setLoading(false);
-   
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-      setLoading(false);
-    }
-  };
+
+    setPosts(data);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  } finally {
+    clearTimeout(skeletonTimeout);
+    setShowSkeleton(false);
+  }
+};
+
 
   useEffect(() => {
     fetchPosts();
@@ -49,25 +54,11 @@ export function Home() {
 
           <div className="max-w-7xl mx-auto mt-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-8 p-4">
-              {loading
-                ? Array.from({ length: 4 }).map((_, i) => (
-                    <article
-                      key={i}
-                      className="bg-gray-300 dark:bg-gray-700 rounded-2xl overflow-hidden flex flex-col animate-pulse"
-                    >
-                      <div className="w-full pb-[100%] bg-gray-400 dark:bg-gray-600" />
-                      <div className="p-4 flex-1 flex flex-col justify-between">
-                        <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded mb-2 w-3/4" />
-                        <div className="h-4 bg-gray-400 dark:bg-gray-600 rounded w-full mb-1" />
-                        <div className="h-4 bg-gray-400 dark:bg-gray-600 rounded w-full mb-1" />
-                        <div className="h-4 bg-gray-400 dark:bg-gray-600 rounded w-5/6" />
-                      </div>
-                      <div className="p-4 flex justify-center">
-                        <div className="h-8 w-12 bg-gray-400 dark:bg-gray-600 rounded-full" />
-                      </div>
-                    </article>
-                  ))
-                : <PostList posts={posts} fetchPosts={fetchPosts} />}
+              {showSkeleton ? (
+                <HomeSkeleton count={4} />
+              ) : (
+                <PostList posts={posts} fetchPosts={fetchPosts} />
+              )}
             </div>
           </div>
         </section>

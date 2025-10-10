@@ -6,14 +6,17 @@ import { toast } from 'react-toastify';
 import { BotonesDelete } from '../components/botonesDelete';
 import { useDropzone } from 'react-dropzone';
 import { Footer } from '../components/footer';
+import { PostSkeleton } from '../components/postSkeleton';
 
 export function EntradaBlog() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [datosUser, setDatosUser] = useState(null); // Inicializamos null
+
+  const [datosUser, setDatosUser] = useState(null);
   const [editarButton, setEditarButton] = useState(false);
   const [borrar, setBorrar] = useState(false);
   const [nuevaImagen, setNuevaImagen] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleBorrarChange = () => setBorrar(true);
 
@@ -27,18 +30,38 @@ export function EntradaBlog() {
         navigate('/');
       })
       .catch((error) => console.error('Error al eliminar el post:', error));
-
     setBorrar(false);
   };
 
-  const fetchDatos = useCallback(() => {
-    fetch(`https://back-blog-7adl.onrender.com/post/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setDatosUser(Array.isArray(data) ? data[0] : data); // Siempre objeto
-      })
-      .catch((error) => console.error('Error al obtener los datos del post:', error));
-  }, [id]);
+ const fetchDatos = useCallback(async () => {
+  let showLoading = false;
+
+
+  const loadingTimeout = setTimeout(() => {
+    showLoading = true;
+    setLoading(true);
+  }, 200);
+
+  try {
+    // Aquí simulamos un retraso de prueba para el skeleton
+    const response = await new Promise((resolve, reject) => {
+      fetch(`https://back-blog-7adl.onrender.com/post/${id}`)
+        .then(res => res.json())
+        .then(data => {
+        resolve(data)
+        })
+        .catch(reject);
+    });
+
+    setDatosUser(Array.isArray(response) ? response[0] : response);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    clearTimeout(loadingTimeout);
+    if (showLoading) setLoading(false);
+  }
+}, [id]);
+
 
   useEffect(() => {
     fetchDatos();
@@ -47,40 +70,38 @@ export function EntradaBlog() {
   const handleEditar = () => setEditarButton(true);
 
   const handleGuardar = () => {
-  if (!datosUser?.contenido || datosUser.contenido.length < 200) {
-    toast.error('El contenido debe tener al menos 200 caracteres');
-    return;
-  }
+    if (!datosUser?.contenido || datosUser.contenido.length < 200) {
+      toast.error('El contenido debe tener al menos 200 caracteres');
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append('titulo', datosUser.titulo || '');
-  formData.append('contenido', datosUser.contenido || '');
+    const formData = new FormData();
+    formData.append('titulo', datosUser.titulo || '');
+    formData.append('contenido', datosUser.contenido || '');
 
-  if (nuevaImagen) {
-    // Solo si se sube nueva imagen
-    formData.append('imagen', nuevaImagen);
-    formData.append('imagenAnterior', datosUser.imagen);
-  } else {
-    // Si no hay nueva imagen, enviamos solo referencia a la existente
-    formData.append('imagenAnterior', datosUser.imagen);
-  }
+    if (nuevaImagen) {
+      formData.append('imagen', nuevaImagen);
+      formData.append('imagenAnterior', datosUser.imagen);
+    } else {
+      formData.append('imagenAnterior', datosUser.imagen);
+    }
 
-  fetch(`https://back-blog-7adl.onrender.com/postEdited/${id}`, {
-    method: 'PUT',
-    body: formData,
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error('Error al guardar los cambios');
-      toast.success('Cambios guardados con éxito!');
-      setEditarButton(false);
-      setNuevaImagen(null);
-      fetchDatos(); // Refresca datos del post
+    fetch(`https://back-blog-7adl.onrender.com/postEdited/${id}`, {
+      method: 'PUT',
+      body: formData,
     })
-    .catch((error) => {
-      console.error(error);
-      toast.error('Error al guardar los cambios');
-    });
-};
+      .then((response) => {
+        if (!response.ok) throw new Error('Error al guardar los cambios');
+        toast.success('Cambios guardados con éxito!');
+        setEditarButton(false);
+        setNuevaImagen(null);
+        fetchDatos();
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error('Error al guardar los cambios');
+      });
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -93,7 +114,9 @@ export function EntradaBlog() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop: handleDrop });
 
-  if (!datosUser) return <p className="text-center mt-10">Cargando post...</p>;
+ if (loading) return <PostSkeleton />;
+
+  if (!datosUser) return null;
 
   return (
     <>
@@ -104,20 +127,20 @@ export function EntradaBlog() {
             {editarButton ? (
               <input
                 type="text"
-                value={datosUser?.titulo || ''}
+                value={datosUser.titulo || ''}
                 onChange={handleInputChange}
                 maxLength={60}
                 className="bg-transparent border-b border-gray-400 focus:outline-none w-full"
                 name="titulo"
               />
             ) : (
-              datosUser?.titulo || ''
+              datosUser.titulo || ''
             )}
           </h2>
         </div>
 
         <div className="flex gap-2 items-center text-gray-900 justify-center mt-6 mb-3">
-          {datosUser?.fecha && (
+          {datosUser.fecha && (
             <p className="text-opacity-80 text-sm text-gray-500 font-semibold dark:text-white/80">
               {new Date(datosUser.fecha).toLocaleString()}
             </p>
@@ -164,7 +187,7 @@ export function EntradaBlog() {
           {editarButton ? (
             <textarea
               className="border border-gray-400 rounded px-4 py-2 w-full dark:bg-cyan-900 dark:text-white/80"
-              value={datosUser?.contenido || ''}
+              value={datosUser.contenido || ''}
               name="contenido"
               minLength={200}
               onChange={handleInputChange}
@@ -174,7 +197,7 @@ export function EntradaBlog() {
             />
           ) : (
             <div className="mx-auto px-5 sm:px-12 text-md sm:text-lg pt-10 pb-10 whitespace-pre-wrap shadow-md bg-slate-50 border border-slate-300 w-3/4vw dark:bg-cyan-900 dark:text-white/80">
-              <p>{datosUser?.contenido || ''}</p>
+              <p>{datosUser.contenido || ''}</p>
             </div>
           )}
         </div>
