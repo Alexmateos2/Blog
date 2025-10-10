@@ -43,7 +43,6 @@ export function EntradaBlog() {
   }, 200);
 
   try {
-    // Aquí simulamos un retraso de prueba para el skeleton
     const response = await new Promise((resolve, reject) => {
       fetch(`https://back-blog-7adl.onrender.com/post/${id}`)
         .then(res => res.json())
@@ -183,7 +182,7 @@ export function EntradaBlog() {
           )}
         </div>
 
-        <div className="mx-auto lg:px-40 px-4 pt-10 whitespace-pre-wrap">
+        <div className="mx-auto lg:px-20 px-4 pt-10 whitespace-pre-wrap">
           {editarButton ? (
             <textarea
               className="border border-gray-400 rounded px-4 py-2 w-full dark:bg-cyan-900 dark:text-white/80"
